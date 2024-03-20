@@ -87,6 +87,8 @@ class Profiler {
   int64_t period_nanos_;
 
  private:
+  static bool fillTopFrame(const void* pc, JVMPI_CallFrame* frame);
+  static int getJavaTraceJvmti(jvmtiFrameInfo* jvmti_frames, JVMPI_CallFrame* frames, int max_depth);
   // Points to a fixed multiset of traces used during collection. This
   // is allocated on the first call to Reset(). Will be reused by
   // subsequent allocations. Cannot be deallocated as it could be in
@@ -144,9 +146,6 @@ class WallProfiler : public Profiler {
                                       int64_t duration_nanos);
 
   const char *ProfileType() override { return "wall"; }
-
-  static bool fillTopFrame(const void* pc, JVMPI_CallFrame* frame);
-  static int getJavaTraceJvmti(jvmtiFrameInfo* jvmti_frames, JVMPI_CallFrame* frames, int max_depth);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(WallProfiler);

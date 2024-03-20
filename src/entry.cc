@@ -235,8 +235,8 @@ static bool RegisterJvmti(jvmtiEnv *jvmti) {
 
   if (FLAGS_cprof_force_debug_non_safepoints) {
     callbacks.CompiledMethodLoad = &OnCompiledMethodLoad;
-    callbacks->CompiledMethodUnload = &CompiledMethodUnload;
-    callbacks->DynamicCodeGenerated = &DynamicCodeGenerated;
+    callbacks.CompiledMethodUnload = &CompiledMethodUnload;
+    callbacks.DynamicCodeGenerated = &DynamicCodeGenerated;
     events.push_back(JVMTI_EVENT_COMPILED_METHOD_LOAD);
     events.push_back(JVMTI_EVENT_COMPILED_METHOD_UNLOAD);
     events.push_back(JVMTI_EVENT_DYNAMIC_CODE_GENERATED);
