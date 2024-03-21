@@ -114,9 +114,8 @@ std::string CallTraceErrorToName(int64_t err) {
     case kNotWalkableFrameNotJava:
       return "[Unknown non-Java frame]";
     case kUnknownJava:
-      return "[Unknown Java frame]";
     case kNotWalkableFrameJava:
-      return "[Unwalkable Java frame]";
+      return "[Unknown Java frame]";
     case kUnknownState:
       return "[Unknown state]";
     case kThreadExit:

@@ -23,7 +23,6 @@
 #include <string>
 
 #include "src/threads.h"
-#include "src/codeCache.h"
 #include "third_party/javaprofiler/stacktraces.h"
 
 namespace cloud {
@@ -144,9 +143,6 @@ class WallProfiler : public Profiler {
                                       int64_t duration_nanos);
 
   const char *ProfileType() override { return "wall"; }
-
-  static bool fillTopFrame(const void* pc, JVMPI_CallFrame* frame);
-  static int getJavaTraceJvmti(jvmtiFrameInfo* jvmti_frames, JVMPI_CallFrame* frames, int max_depth);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(WallProfiler);
