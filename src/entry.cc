@@ -24,6 +24,7 @@
 #include "third_party/javaprofiler/globals.h"
 #include "third_party/javaprofiler/heap_sampler.h"
 #include "third_party/javaprofiler/stacktraces.h"
+#include "src/threads.h"
 
 DEFINE_bool(cprof_cpu_use_per_thread_timers, false,
             "when true, use per-thread CLOCK_THREAD_CPUTIME_ID timers; "
@@ -54,6 +55,8 @@ static void JNICALL OnThreadStart(jvmtiEnv *jvmti_env, JNIEnv *jni_env,
   IMPLICITLY_USE(thread);
   google::javaprofiler::Accessors::SetCurrentJniEnv(jni_env);
   threads->RegisterCurrent();
+  pid_t tid = GetTid();
+  LOG(INFO) << "[VENKAT] Registered Thread: " << tid;
 }
 
 static void JNICALL OnThreadEnd(jvmtiEnv *jvmti_env, JNIEnv *jni_env,
