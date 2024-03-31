@@ -15,8 +15,7 @@
 #
 # Base image
 #
-FROM ubuntu:jammy
-
+FROM ubuntu:xenial
 
 #
 # Dependencies
@@ -26,19 +25,14 @@ FROM ubuntu:jammy
 # CMake. CMake > 3.13 is required to use "module" mode for gRPC dependencies.
 # See https://github.com/grpc/grpc/blob/master/BUILDING.md#install-after-build.
 # Kitware installs CMake v3.20.5
-RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common && \
-    add-apt-repository main && \
-    add-apt-repository universe && \
-    add-apt-repository restricted && \
-    add-apt-repository multiverse
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common apt-transport-https ca-certificates gnupg wget && \
+RUN apt-get update && apt-get install -y software-properties-common apt-transport-https ca-certificates gnupg wget && \
     add-apt-repository -y ppa:openjdk-r/ppa && \
     test -f /usr/share/doc/kitware-archive-keyring/copyright || \
     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
     | gpg --dearmor - \
     | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null && \
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' \
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ xenial main' \
     | tee /etc/apt/sources.list.d/kitware.list >/dev/null && \
     apt-get update && \
     apt-get install kitware-archive-keyring
@@ -96,7 +90,7 @@ RUN git clone --depth=1 -b v2.1.2 https://github.com/gflags/gflags.git /tmp/gfla
 RUN mkdir /tmp/glog && cd /tmp/glog && \
     curl -sL https://github.com/google/glog/archive/v0.4.0.tar.gz | \
         tar xzv --strip=1 && ./autogen.sh && ./configure --with-pic && \
-    make -j4 && make install && \
+    make -j && make install && \
     cd ~ && rm -rf /tmp/glog
 
 # gRPC & protobuf - build using CMake
