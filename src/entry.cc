@@ -56,7 +56,13 @@ static void JNICALL OnThreadStart(jvmtiEnv *jvmti_env, JNIEnv *jni_env,
   google::javaprofiler::Accessors::SetCurrentJniEnv(jni_env);
   threads->RegisterCurrent();
   pid_t tid = GetTid();
+  std::vector<pid_t> tids = threads->Threads();
   LOG(INFO) << "[VENKAT] Registered Thread: " << tid;
+  // Log all thread IDs in the tids vector
+  for (size_t i = 0; i < tids.size(); ++i) {
+      LOG(INFO) << "[Venkat][Tid registered: " << tid << "] Thread ID in vector: " << tids[i];
+  }
+
 }
 
 static void JNICALL OnThreadEnd(jvmtiEnv *jvmti_env, JNIEnv *jni_env,
@@ -66,6 +72,12 @@ static void JNICALL OnThreadEnd(jvmtiEnv *jvmti_env, JNIEnv *jni_env,
   IMPLICITLY_USE(thread);
   google::javaprofiler::Accessors::SetCurrentJniEnv(nullptr);
   threads->UnregisterCurrent();
+  LOG(INFO) << "[VENKAT] Unregistered Thread: " << tid;
+  std::vector<pid_t> tids = threads->Threads();
+  // Log all thread IDs in the tids vector
+  for (size_t i = 0; i < tids.size(); ++i) {
+      LOG(INFO) << "[Venkat][Tid unregistered: " << tid << "] Thread ID in vector: " << tids[i];
+  }
 }
 
 // This has to be here, or the VM turns off class loading events.
