@@ -72,6 +72,7 @@ static void JNICALL OnThreadEnd(jvmtiEnv *jvmti_env, JNIEnv *jni_env,
   IMPLICITLY_USE(thread);
   google::javaprofiler::Accessors::SetCurrentJniEnv(nullptr);
   threads->UnregisterCurrent();
+  pid_t tid = GetTid();
   LOG(INFO) << "[VENKAT] Unregistered Thread: " << tid;
   std::vector<pid_t> tids = threads->Threads();
   // Log all thread IDs in the tids vector
